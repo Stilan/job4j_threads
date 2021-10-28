@@ -18,15 +18,15 @@ public class ConsoleProgress implements Runnable {
     @Override
     public void run() {
         try {
-            boolean is = true;
+            String[] str = new String[]{"\\|", "|/"};
             while (!Thread.currentThread().isInterrupted()) {
-                Thread.sleep(500);
-                if (is) {
-                    System.out.print("\r Loading..."  +  " " + "|" + "/" + ".");
-                    is = false;
-                } else {
-                    System.out.print("\r Loading..."  +  "\\" + "|" + " " + ".");
-                    is = true;
+                for (int i = 0; i < str.length; i++) {
+                    if (i % 2 != 0) {
+                        System.out.print("\r Loading..." + " " + str[i]);
+                    } else {
+                        System.out.print("\r Loading..." + str[i] + " ");
+                    }
+                    Thread.sleep(500);
                 }
             }
         } catch (InterruptedException e) {
