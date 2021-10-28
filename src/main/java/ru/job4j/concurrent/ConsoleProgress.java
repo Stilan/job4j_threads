@@ -34,6 +34,7 @@ public class ConsoleProgress implements Runnable {
         }
     }
 
+
     public static void main(String[] args) {
         try {
             Thread progress = new Thread(new ConsoleProgress());
