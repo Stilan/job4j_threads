@@ -3,7 +3,7 @@ package ru.job4j.io;
 import java.io.*;
 import java.util.function.Predicate;
 
-public class ParseFile {
+public final class ParseFile {
     private final File file;
 
     public ParseFile(File file) {
@@ -14,7 +14,7 @@ public class ParseFile {
         StringBuilder stringBuilder = new StringBuilder();
         try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
             int data;
-            while ((data = bis.read()) > 0) {
+            while ((data = bis.read()) != -1) {
                  if (filter.test((char) data)) {
                      stringBuilder.append((char) data);
                  }
