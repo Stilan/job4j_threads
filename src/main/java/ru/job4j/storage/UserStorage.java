@@ -13,36 +13,27 @@ public final class UserStorage {
     private final Map<Integer, User> userStore = new HashMap<>();
 
    public synchronized boolean add(User user) {
-        if (!userStore.containsKey(user.getId())) {
-            userStore.put(user.getId(), user);
-            return true;
-        }
-        return false;
+       return userStore.putIfAbsent(user.getId(), user) == null;
     }
-  public synchronized boolean update(User user) {
-      if (userStore.containsKey(user.getId())) {
-          userStore.put(user.getId(), user);
-          return true;
-      }
-      return false;
-  }
+
+    public synchronized boolean update(User user) {
+       return userStore.replace(user.getId(), user) != null;
+    }
+
    public synchronized boolean delete(User user) {
-       if (userStore.containsKey(user.getId())) {
-           userStore.remove(user.getId());
-           return true;
-       }
-       return false;
-   }
-  public synchronized boolean transfer(int fromId, int toId, int amount) {
+      return userStore.remove(user.getId(), user);
+    }
+
+    public synchronized boolean transfer(int fromId, int toId, int amount) {
        User userFrom = userStore.get(fromId);
        User userTo = userStore.get(toId);
-       if (userFrom.getAmount() > amount) {
+       if (userFrom.getAmount() >= amount) {
            userFrom.setAmount(userFrom.getAmount() - amount);
            userTo.setAmount(userTo.getAmount() + amount);
            return true;
        }
        return false;
-  }
+    }
 
     public static void main(String[] args) {
         UserStorage stoge = new UserStorage();
