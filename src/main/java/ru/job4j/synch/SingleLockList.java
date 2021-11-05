@@ -14,8 +14,7 @@ public class SingleLockList<T> implements Iterable<T> {
     private final List<T> list;
 
     public SingleLockList() {
-        this.list = (ArrayList<T>) new ArrayList<>().clone();
-
+        this.list = new ArrayList<>();
     }
 
     public synchronized void add(T value) {
