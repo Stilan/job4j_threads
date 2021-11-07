@@ -8,7 +8,7 @@ public class SimpleBlockingQueueTest  {
     @Ignore
     @Test
     public void simpleBlockingQueueTest1() throws InterruptedException {
-        SimpleBlockingQueue<Integer> simpleBlockingQueue = new SimpleBlockingQueue<>();
+        SimpleBlockingQueue<Integer> simpleBlockingQueue = new SimpleBlockingQueue<>(5);
         Thread consumer = new Thread(
                 () -> {
                     for (int i = 0; i < 10; i++) {
@@ -16,6 +16,7 @@ public class SimpleBlockingQueueTest  {
                             simpleBlockingQueue.poll();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
+                            System.out.println();
                         }
                     }
                 },
