@@ -10,21 +10,19 @@ public class SimpleBlockingQueue<T> {
     @GuardedBy("this")
     private Queue<T> queue = new LinkedList<>();
 
-    private final int pause;
+    private final int size;
 
     public SimpleBlockingQueue(int pause) {
-        this.pause = pause;
+        this.size = pause;
     }
 
     public void offer(T value) throws InterruptedException {
         synchronized (this) {
-            if (queue.size() == pause) {
+            if (queue.size() == size) {
                 wait();
-                System.out.println("Producer wait()");
             }
-            System.out.println("Producer offer()");
-            notify();
             queue.offer(value);
+            notify();
         }
     }
 
@@ -32,10 +30,8 @@ public class SimpleBlockingQueue<T> {
         synchronized (this) {
             if (queue.isEmpty()) {
                 wait();
-                System.out.println("Consumer wait()");
             }
             notify();
-            System.out.println("Consumer poll()");
             return queue.poll();
         }
     }
