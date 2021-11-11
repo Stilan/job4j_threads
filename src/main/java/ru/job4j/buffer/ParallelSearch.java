@@ -15,16 +15,16 @@ public class ParallelSearch<T> {
 
         final Thread consumer = new Thread(
                 () -> {
-                    while (true) {
+                    Integer i = null;
+                    while (!Thread.currentThread().isInterrupted() || !queue.isEmpty()) {
                         try {
-                            Integer i = queue.poll();
+                            i = queue.poll();
                             if (i == POISON) {
                                 break;
                             }
                             System.out.println(i);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
-                            Thread.currentThread().interrupt();
                         }
                     }
                 }
@@ -38,15 +38,18 @@ public class ParallelSearch<T> {
                             Thread.sleep(500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
+                            Thread.currentThread().interrupt();
                         }
                     }
                     try {
                         queue.offer(POISON);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                        Thread.currentThread().interrupt();
                     }
                 }
 
         ).start();
+        consumer.interrupt();
     }
 }
