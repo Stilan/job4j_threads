@@ -12,7 +12,12 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @ThreadSafe
 public class CASCount {
-    private final AtomicReference<Integer> count = new AtomicReference<>(1);
+
+    private final AtomicReference<Integer> count = new AtomicReference<>();
+
+    public CASCount() {
+      count.set(0);
+    }
 
     public void increment() {
         Integer i;
