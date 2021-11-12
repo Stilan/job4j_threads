@@ -12,24 +12,22 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @ThreadSafe
 public class CASCount {
-    private final AtomicReference<Integer> count = new AtomicReference<>();
+    private final AtomicReference<Integer> count = new AtomicReference<>(4);
 
     public void increment() {
-        Integer i = count.get();
-        Integer j;
-        if (i == null) {
-            throw new UnsupportedOperationException("Count is not impl.");
-        }
+        Integer i;
         do {
-             j = i++;
-        } while (!count.compareAndSet(i, j));
+              i = count.get();
+        } while (!count.compareAndSet(i, i + 1));
     }
 
     public int get() {
-        Integer i = count.get();
-        if (i == null) {
-            throw new UnsupportedOperationException("Count is not impl.");
-        }
-        return i;
+        return count.get();
+    }
+
+    public static void main(String[] args) {
+        CASCount count = new CASCount();
+        count.increment();
+        System.out.println(count.get());
     }
 }
