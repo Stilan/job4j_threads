@@ -9,28 +9,22 @@ import ru.job4j.producer.SimpleBlockingQueue;
  * @param <T>
  */
 public class ParallelSearch<T> {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<Integer>(5);
-        final Integer POISON = 900;
 
         final Thread consumer = new Thread(
                 () -> {
-                    Integer i = null;
-                    while (!Thread.currentThread().isInterrupted() || !queue.isEmpty()) {
+                    while (!Thread.currentThread().isInterrupted()) {
                         try {
-                            i = queue.poll();
-                            if (i == POISON) {
-                                break;
-                            }
-                            System.out.println(i);
+                            System.out.println(queue.poll());
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            Thread.currentThread().interrupt();
                         }
                     }
                 }
         );
         consumer.start();
-        new Thread(
+       Thread producer = new Thread(
                 () -> {
                     for (int index = 0; index != 3; index++) {
                         try {
@@ -41,15 +35,13 @@ public class ParallelSearch<T> {
                             Thread.currentThread().interrupt();
                         }
                     }
-                    try {
-                        queue.offer(POISON);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        Thread.currentThread().interrupt();
-                    }
+
                 }
 
-        ).start();
+        );
+        producer.start();
+        producer.join();
         consumer.interrupt();
     }
+
 }
