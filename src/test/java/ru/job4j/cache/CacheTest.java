@@ -31,4 +31,13 @@ public class CacheTest  {
         base.setName("Name");
         assertThat(cache.update(base), is(true));
     }
+
+    @Test(expected = OptimisticException.class)
+    public void updateTest2() {
+        Cache cache = new Cache();
+        Base base = new Base(0, 1);
+        cache.add(base);
+        Base base2 = new Base(0, 0);
+        cache.update(base2);
+    }
 }
