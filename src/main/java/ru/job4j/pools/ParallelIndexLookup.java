@@ -12,35 +12,40 @@ import java.util.concurrent.RecursiveTask;
 public class ParallelIndexLookup extends RecursiveTask<Integer> {
 
     private final int[] array;
+    private final int from;
+    private final int to;
     private final int elm;
 
-    public ParallelIndexLookup(int[] array,  int elm) {
+    public ParallelIndexLookup(int[] array, int from, int to, int elm) {
         this.array = array;
+        this.from = from;
+        this.to = to;
         this.elm = elm;
     }
 
     @Override
     protected Integer compute() {
-        if (array.length <= 10) {
-            int total = 0;
+        if (to - from <= 10) {
             for (int i = 0; i < array.length; i++) {
-                if (array[i] == elm) {
-                    total = i;
+                if (array[i]  == elm) {
+                    return i;
                 }
             }
-            return total;
-        } else {
-            ParallelIndexLookup parallelIndexLookup1 = new ParallelIndexLookup(Arrays.copyOfRange(array, 0, array.length / 2), elm);
-            ParallelIndexLookup parallelIndexLookup2 = new ParallelIndexLookup(Arrays.copyOfRange(array, array.length / 2, array.length), elm);
+             return -1;
+        }
+            int mid = (from + to) / 2;
+            ParallelIndexLookup parallelIndexLookup1 = new ParallelIndexLookup(array, from,  mid, elm);
+            ParallelIndexLookup parallelIndexLookup2 = new ParallelIndexLookup(array, mid + 1, to, elm);
             parallelIndexLookup1.fork();
             parallelIndexLookup2.fork();
-            return parallelIndexLookup1.join() + parallelIndexLookup2.join();
-        }
+            return parallelIndexLookup1.join() == -1 ? parallelIndexLookup2.join() : parallelIndexLookup1.join();
+
     }
 
     public static void main(String[] args) {
-     int[] array = new int[]{1, 2, 4, 6, 10, 23, 45, 18, 9, 7, 77, 66, 41, 51, 35};
-     ParallelIndexLookup parallelIndexLookup = new ParallelIndexLookup(array, 23);
+     int[] array = new int[]{1, 2, 4, 6, 10, 23,
+             45, 18, 9, 7, 77, 66, 41, 51, 35};
+      ParallelIndexLookup parallelIndexLookup = new ParallelIndexLookup(array, 0, array.length, 23);
         ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
         int f = forkJoinPool.invoke(parallelIndexLookup);
         System.out.println(f);
