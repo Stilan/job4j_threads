@@ -26,7 +26,7 @@ public class ParallelIndexLookup extends RecursiveTask<Integer> {
     @Override
     protected Integer compute() {
         if (to - from <= 10) {
-            for (int i = 0; i < array.length; i++) {
+            for (int i = from; i < to; i++) {
                 if (array[i]  == elm) {
                     return i;
                 }
@@ -38,7 +38,9 @@ public class ParallelIndexLookup extends RecursiveTask<Integer> {
             ParallelIndexLookup parallelIndexLookup2 = new ParallelIndexLookup(array, mid + 1, to, elm);
             parallelIndexLookup1.fork();
             parallelIndexLookup2.fork();
-            return parallelIndexLookup1.join() == -1 ? parallelIndexLookup2.join() : parallelIndexLookup1.join();
+            int leftParallelIndexLookup = parallelIndexLookup1.join();
+            int rightParallelIndexLookup = parallelIndexLookup2.join();
+            return Math.max(leftParallelIndexLookup, rightParallelIndexLookup);
 
     }
 
