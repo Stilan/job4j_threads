@@ -49,12 +49,12 @@ public class RolColSum {
     public static Sums[] asyncSum(int[][] matrix) throws ExecutionException, InterruptedException {
        Sums[] sums = new Sums[matrix.length];
         for (int i = 0; i < sums.length; i++) {
-            sums[i] = getTask1(matrix, i).get();
+            sums[i] = getTask(matrix, i).get();
         }
 
          return sums;
     }
-    public static CompletableFuture<Sums> getTask1(int[][] data, int j) {
+    public static CompletableFuture<Sums> getTask(int[][] data, int j) {
       return CompletableFuture.supplyAsync(() -> {
           Sums sums = new Sums();
           int rowSum = 0;
