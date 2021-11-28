@@ -30,7 +30,7 @@ public class MergeSort {
             } else if (left[li] <= right[ri]) {
                 result[resI++] = left[li++];
             } else {
-                result[resI++] = right[ri++];
+                result[resI++] =  right[ri++];
             }
         }
         return result;
