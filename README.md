@@ -3,4 +3,4 @@
 [![codecov](https://codecov.io/gh/Stilan/job4j_threads/branch/master/graph/badge.svg?token=631HR04M8I)](https://codecov.io/gh/Stilan/job4j_threads)
 
 
-В курсе производилась работа с ветками git
+В курсе производилась работа с ветками git!!!
