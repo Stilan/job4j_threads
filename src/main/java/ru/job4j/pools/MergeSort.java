@@ -25,7 +25,7 @@ public class MergeSort {
         while (resI != result.length) {
             if (li == left.length) {
                 result[resI++] = right[ri++];
-            } else if (ri ==  right.length) {
+            } else if (ri == right.length) {
                 result[resI++] = left[li++];
             } else if (left[li] <= right[ri]) {
                 result[resI++] = left[li++];
