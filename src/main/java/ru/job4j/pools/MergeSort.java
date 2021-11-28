@@ -21,7 +21,7 @@ public class MergeSort {
         int li = 0;
         int ri = 0;
         int resI = 0;
-        int[] result = new int[left.length + right.length];
+        int[] result = new int[left.length +  right.length];
         while (resI != result.length) {
             if (li == left.length) {
                 result[resI++] = right[ri++];
