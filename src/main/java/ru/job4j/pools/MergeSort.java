@@ -33,7 +33,10 @@ public class MergeSort {
                 result[resI++] = right[ri++];
             }
         }
-        System.out.println("Сделай изменения.Изменения!!!");
+        System.out.println("3.2. Откат изменений. [#307144]!");
+        System.out.println("3.2. Откат изменений. [#307144]!");
+        System.out.println("3.2. Откат изменений. [#307144]!");
+        System.out.println("3.2. Откат изменений. [#307144]!");
         return result;
     }
 }
