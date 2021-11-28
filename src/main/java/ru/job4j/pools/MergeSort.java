@@ -33,6 +33,7 @@ public class MergeSort {
                 result[resI++] = right[ri++];
             }
         }
+        System.out.println("Сделай изменения.Изменения!!!");
         return result;
     }
 }
